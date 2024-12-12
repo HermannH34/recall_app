@@ -1,52 +1,84 @@
-import { NextResponse, NextRequest } from "next/server";
-import { getServerSession } from "next-auth/next";
-import { authOptions } from "@/libs/next-auth";
-import connectMongo from "@/libs/mongoose";
-import { createCustomerPortal } from "@/libs/stripe";
-import User from "@/models/User";
+import mongoose, { Schema, Document, Model } from 'mongoose';
+import { NextApiRequest, NextApiResponse } from 'next';
 
-export async function POST(req: NextRequest) {
-  const session = await getServerSession(authOptions);
+// MongoDB connection URI
+const MONGO_URI = 'your_mongodb_connection_string_here';
 
-  if (session) {
-    try {
-      await connectMongo();
+// Interface for user document
+interface IUser extends Document {
+  email: string;
+  name: string;
+  motive: string;
+  frecallDate: Date;
+}
 
-      const body = await req.json();
+// MongoDB connection helper
+const connectToDatabase = async (): Promise<void> => {
+  if (mongoose.connections[0].readyState) return;
+  await mongoose.connect(MONGO_URI, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  });
+};
 
-      const { id } = session.user;
+// Mongoose schema for user
+const userSchema: Schema = new mongoose.Schema({
+  email: { type: String, required: true },
+  name: { type: String, required: true },
+  motive: { type: String, required: true },
+  recallDate: { type: Date, required: true },
+});
 
-      const user = await User.findById(id);
+// Mongoose model for user
+const User: Model<IUser> = mongoose.models.User || mongoose.model<IUser>('User', userSchema);
 
-      if (!user?.customerId) {
-        return NextResponse.json(
-          {
-            error:
-              "You don't have a billing account yet. Make a purchase first.",
-          },
-          { status: 400 }
-        );
-      } else if (!body.returnUrl) {
-        return NextResponse.json(
-          { error: "Return URL is required" },
-          { status: 400 }
-        );
-      }
+const getFormattedDate = (): Date => {
+  const isWeekend = (day: number): boolean => day === 6 || day === 0;
+  const isFridayOrThursday = (day: number): boolean => day >= 4;
 
-      const stripePortalUrl = await createCustomerPortal({
-        customerId: user.customerId,
-        returnUrl: body.returnUrl,
-      });
+  let newDate = new Date();
+  newDate.setDate(newDate.getDate() + 2)
 
-      return NextResponse.json({
-        url: stripePortalUrl,
-      });
-    } catch (e) {
-      console.error(e);
-      return NextResponse.json({ error: e?.message }, { status: 500 });
-    }
-  } else {
-    // Not Signed in
-    return NextResponse.json({ error: "Not signed in" }, { status: 401 });
+  while (isWeekend(newDate.getDay()) || isFridayOrThursday(newDate.getDay())) {
+    newDate.setDate(newDate.getDate() + 1);
+  }
+
+  return newDate;
+};
+
+export default async function handler(req: NextApiRequest, res: NextApiResponse): Promise<void> {
+  if (req.method !== 'POST') {
+    return res.status(405).json({ message: 'Method not allowed' });
+  }
+
+  const { email, name, motive } = req.body;
+
+  if (!email || !name || !motive) {
+    return res.status(400).json({ message: 'Email, name, and motive are required' });
+  }
+
+  try {
+    const recallDate = getFormattedDate();
+
+    const userData = new Recall({
+      email,
+      name,
+      motive,
+      recallDate,
+    });
+
+    await userData.save();
+
+    res.status(201).json({
+      message: 'Data saved successfully',
+      data: {
+        email,
+        name,
+        motive,
+        recallDate,
+      },
+    });
+  } catch (error) {
+    res.status(500).json({ message: 'Internal server error', error: (error as Error).message });
   }
 }
