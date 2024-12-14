@@ -28,6 +28,7 @@ export const sendEmail = async ({
     html,
     ...(replyTo && { replyTo }),
   });
+  console.log("send mail OK")
 
   if (error) {
     console.error("Error sending email:", error.message);
