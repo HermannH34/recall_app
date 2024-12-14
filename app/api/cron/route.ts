@@ -17,7 +17,7 @@ export async function GET() {
   });
 
 
-  if (recalls.length > 0) await sendEmailsForLeads(recalls);
+  // if (recalls.length > 0) await sendEmailsForLeads(recalls);
 
   return NextResponse.json({ success: true, recalls });
  } catch (error) {
