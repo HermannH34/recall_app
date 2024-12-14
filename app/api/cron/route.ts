@@ -16,7 +16,9 @@ export async function GET() {
    },
   });
 
-  await sendEmailsForLeads(recalls);
+  console.log("recalls: ", recalls)
+
+  if (recalls.length > 0) await sendEmailsForLeads(recalls);
 
   return NextResponse.json({ success: true, recalls });
  } catch (error) {
@@ -38,44 +40,51 @@ const getDateRangeForToday = (): { startDate: Date; endDate: Date } => {
  return { startDate: today, endDate: tomorrow };
 };
 
-const generateEmailBody = (recall: {
+type RecallObject = {
  name: string;
  motive: string;
-}): { text: string; html: string } => {
- const text = `
-Nom: ${recall.name}
-Motif de rappel: ${recall.motive}
+};
 
-`;
 
- const html = `
-<p><strong>Nom:</strong> ${recall.name}</p>
-<p><strong>Motif de rappel:</strong> ${recall.motive}</p>
-<br>
-`;
+const generateEmailBody = (recalls: RecallObject[]): { text: string; html: string } => {
+ const message = `Hello Clara voici la liste de tes ${recalls.length} prospects à rappeler aujourd'hui: <br><br>`
+ let text = message
+ let html = message
+
+ for (const recall of recalls) {
+  text += `
+  Nom: ${recall.name}
+  Motif de rappel: ${recall.motive}
+  
+  `;
+
+  html += `
+  <p><strong>Nom:</strong> ${recall.name}</p>
+  <p><strong>Motif de rappel:</strong> ${recall.motive}</p>
+  <br>
+  `;
+ }
+
 
  return { text, html };
 };
 
 const sendEmailsForLeads = async (recalls: any[]) => {
- for (const recall of recalls) {
-  const { text, html } = generateEmailBody({
-   name: recall.name,
-   motive: recall.motive,
+
+ const { text, html } = generateEmailBody(recalls);
+
+ try {
+  await sendEmail({
+   to: recalls[0].email,
+   subject: "Rappels programmés aujourd'hui",
+   text,
+   html,
+   replyTo: "hermannhairet44@gmail.com",
   });
 
-  try {
-   await sendEmail({
-    to: recall.email,
-    subject: "Rappel programmé",
-    text,
-    html,
-    replyTo: "hermannhairet44@gmail.com",
-   });
-
-   console.log(`Email sent to ${recall.email}`);
-  } catch (emailError) {
-   console.error(`Error sending email to ${recall.email}:`, emailError);
-  }
+  console.log(`Email sent to ${recalls[0].email}`);
+ } catch (emailError) {
+  console.error(`Error sending email to ${recalls[0].email}:`, emailError);
  }
+
 };
