@@ -69,12 +69,14 @@ const generateEmailBody = (recalls: RecallObject[]): { text: string; html: strin
  return { text, html };
 };
 
+console.log("send mail OK 1")
+
 const sendEmailsForLeads = async (recalls: any[]) => {
 
  const { text, html } = generateEmailBody(recalls);
 
  try {
-  console.log("send mail OK 1")
+
   await sendEmail({
    to: recalls[0].email,
    subject: "Rappels programmés aujourd'hui",
