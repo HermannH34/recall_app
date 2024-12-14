@@ -47,7 +47,7 @@ type RecallObject = {
 
 
 const generateEmailBody = (recalls: RecallObject[]): { text: string; html: string } => {
- const message = `Hello Clara voici la liste de tes ${recalls.length} prospects à rappeler aujourd'hui: <br><br>`
+ const message = `Hello Clara voici la liste de tes rappels aujourd'hui: <br><br>`
  let text = message
  let html = message
 
@@ -59,8 +59,8 @@ const generateEmailBody = (recalls: RecallObject[]): { text: string; html: strin
   `;
 
   html += `
-  <p><strong>Nom:</strong> ${recall.name}</p>
-  <p><strong>Motif de rappel:</strong> ${recall.motive}</p>
+  <p><strong>🚀Nom:</strong> <strong>${recall.name}</strong></p>
+  <p>Motif de rappel: ${recall.motive}</p>
   <br>
   `;
  }
