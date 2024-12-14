@@ -16,11 +16,14 @@ export async function GET() {
    },
   });
 
+  const response = NextResponse.json({ success: true, recalls });
+  response.headers.set('Cache-Control', 'no-store, max-age=0')
+
   console.log("recalls: ", recalls)
 
   if (recalls.length > 0) await sendEmailsForLeads(recalls);
 
-  return NextResponse.json({ success: true, recalls });
+  return response
  } catch (error) {
   console.error("Error fetching leads by date: ", error);
   return NextResponse.json(
@@ -69,7 +72,6 @@ const generateEmailBody = (recalls: RecallObject[]): { text: string; html: strin
  return { text, html };
 };
 
-console.log("send mail OK 1")
 
 const sendEmailsForLeads = async (recalls: any[]) => {
 
@@ -85,9 +87,9 @@ const sendEmailsForLeads = async (recalls: any[]) => {
    replyTo: "hermannhairet44@gmail.com",
   });
 
-  console.log(`Email sent to ${recalls[0].email}`);
+
  } catch (emailError) {
-  console.error(`Error sending email to ${recalls[0].email}:`, emailError);
+  console.error(`Error sending email`, emailError);
  }
 
 };
