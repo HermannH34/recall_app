@@ -16,14 +16,10 @@ export async function GET() {
    },
   });
 
-  const response = NextResponse.json({ success: true, recalls });
-  response.headers.set('Cache-Control', 'no-store, max-age=0')
-
-  console.log("recalls: ", recalls)
 
   if (recalls.length > 0) await sendEmailsForLeads(recalls);
 
-  return response
+  return NextResponse.json({ success: true, recalls });
  } catch (error) {
   console.error("Error fetching leads by date: ", error);
   return NextResponse.json(
