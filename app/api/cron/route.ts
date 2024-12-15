@@ -1,9 +1,17 @@
-import { NextResponse } from "next/server";
+import { NextResponse, NextRequest } from "next/server";
 import connectMongo from "@/libs/mongoose";
 import Recall from "@/models/Recall";
 import { sendEmail } from "@/libs/resend";
+import { revalidatePath } from "next/cache";
 
-export async function GET() {
+const forceRevalidate = (request: NextRequest) => {
+ const path = request.nextUrl.searchParams.get("path") || "/";
+ revalidatePath(path);
+};
+
+export async function GET(request: NextRequest) {
+ forceRevalidate(request);
+
  try {
   await connectMongo();
 
