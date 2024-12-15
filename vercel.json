@@ -10,8 +10,16 @@
    "source": "/api/(.*)",
    "headers": [
     {
-     "key": "Cache-Control",
-     "value": "no-store"
+     "key": "X-Robots-Tag",
+     "value": "noindex"
+    },
+    {
+     "key": "Access-Control-Allow-Origin",
+     "value": "*"
+    },
+    {
+     "key": "User-Agent",
+     "value": "MyCronJob"
     }
    ]
   }
