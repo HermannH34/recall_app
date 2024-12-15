@@ -22,6 +22,7 @@ export async function GET() {
   return NextResponse.json({ success: true, recalls }, {
    headers: {
     'Cache-Control': 'no-store',
+    'Vercel-CDN-Cache-Control': 'no-store',
    },
   });
  } catch (error) {
