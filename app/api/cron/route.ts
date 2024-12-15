@@ -1,10 +1,9 @@
-import type { NextApiRequest, NextApiResponse } from 'next'
+import { NextResponse } from "next/server";
 import connectMongo from "@/libs/mongoose";
 import Recall from "@/models/Recall";
 import { sendEmail } from "@/libs/resend";
 
-export async function GET(req: NextApiRequest,
- res: NextApiResponse<ResponseData>) {
+export async function GET() {
  try {
   await connectMongo();
 
@@ -20,11 +19,17 @@ export async function GET(req: NextApiRequest,
 
   if (recalls.length > 0) await sendEmailsForLeads(recalls);
 
-  return res.json({ success: true, recalls, timestamp: new Date() });
+  return NextResponse.json({ success: true, recalls, timestamp: new Date }, {
+   headers: {
+    'Cache-Control': 'no-store',
+    'Vercel-CDN-Cache-Control': 'no-store',
+   },
+  });
  } catch (error) {
   console.error("Error fetching leads by date: ", error);
-  return res.json(
-   { success: false, error: "Internal server error" }
+  return NextResponse.json(
+   { success: false, error: "Internal server error" },
+   { status: 500 }
   );
  }
 }
