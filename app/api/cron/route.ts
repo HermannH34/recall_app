@@ -17,9 +17,13 @@ export async function GET() {
   });
 
 
-  // if (recalls.length > 0) await sendEmailsForLeads(recalls);
+  if (recalls.length > 0) await sendEmailsForLeads(recalls);
 
-  return NextResponse.json({ success: true, recalls }, { cache: 'no-store' });
+  return NextResponse.json({ success: true, recalls }, {
+   headers: {
+    'Cache-Control': 'no-store',
+   },
+  });
  } catch (error) {
   console.error("Error fetching leads by date: ", error);
   return NextResponse.json(
@@ -63,7 +67,6 @@ const generateEmailBody = (recalls: RecallObject[]): { text: string; html: strin
   <br>
   `;
  }
-
 
  return { text, html };
 };
