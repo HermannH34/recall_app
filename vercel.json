@@ -2,26 +2,7 @@
  "crons": [
   {
    "path": "/api/cron",
-   "schedule": "25 17 * * 1-6"
-  }
- ],
- "headers": [
-  {
-   "source": "/api/(.*)",
-   "headers": [
-    {
-     "key": "X-Robots-Tag",
-     "value": "noindex"
-    },
-    {
-     "key": "Access-Control-Allow-Origin",
-     "value": "*"
-    },
-    {
-     "key": "User-Agent",
-     "value": "MyCronJob"
-    }
-   ]
+   "schedule": "45 09 * * 1-5"
   }
  ]
 }
