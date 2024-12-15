@@ -19,7 +19,7 @@ export async function GET() {
 
   if (recalls.length > 0) await sendEmailsForLeads(recalls);
 
-  return NextResponse.json({ success: true, recalls }, {
+  return NextResponse.json({ success: true, recalls, timestamp: new Date() }, {
    headers: {
     'Cache-Control': 'no-store',
     'Vercel-CDN-Cache-Control': 'no-store',
