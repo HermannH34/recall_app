@@ -4,5 +4,16 @@
    "path": "/api/cron",
    "schedule": "25 17 * * 1-6"
   }
+ ],
+ "headers": [
+  {
+   "source": "/api/(.*)",
+   "headers": [
+    {
+     "key": "Cache-Control",
+     "value": "no-store"
+    }
+   ]
+  }
  ]
 }
