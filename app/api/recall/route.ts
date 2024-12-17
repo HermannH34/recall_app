@@ -7,7 +7,7 @@ const getFormattedDate = (date: Date): Date => {
  const isFridayOrThursday = (day: number): boolean => day >= 4;
 
  let newDate = new Date(date);
- newDate.setDate(newDate.getDate() + 3);
+ newDate.setDate(newDate.getDate() + 2);
 
  while (isWeekend(newDate.getDay()) || (isFridayOrThursday(date.getDay()) && newDate.getDay() === 0)) {
   newDate.setDate(newDate.getDate() + 1);
