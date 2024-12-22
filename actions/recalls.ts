@@ -3,15 +3,13 @@
 import Recall from "@/models/Recall";
 import connectMongo from "@/libs/mongoose";
 import { revalidatePath } from 'next/cache';
-import { NextRequest } from 'next/server';
 
-export async function toggleRecall(recallId: string, request: NextRequest) {
+export async function toggleRecall(recallId: string) {
   try {
     await connectMongo();
 
     const deletedRecall = await Recall.findOneAndDelete({ _id: recallId });
-    const path = request.nextUrl.pathname; // Get current path from the request
-    revalidatePath(path); 
+    revalidatePath('/recalls');
 
     return { success: true, data: deletedRecall }
   } catch (error) {
@@ -20,7 +18,7 @@ export async function toggleRecall(recallId: string, request: NextRequest) {
   }
 }
 
-export async function updateComment(recallId: string, comment: string, request: NextRequest) {
+export async function updateComment(recallId: string, comment: string) {
   try {
     await connectMongo();
     
@@ -30,8 +28,8 @@ export async function updateComment(recallId: string, comment: string, request: 
         { new: true, runValidators: true } 
       );
 
-      const path = request.nextUrl.pathname; // Get current path from the request
-      revalidatePath(path); 
+    console.log("test" ,result)
+    revalidatePath('/recalls');
 
     return { success: true, data: result.toJSON() };
   } catch (error) {
