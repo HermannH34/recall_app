@@ -9,7 +9,7 @@ interface RecallCheckboxProps {
 export default function RecallCheckbox({ recallId }: RecallCheckboxProps) {
   const handleChange = async () => {
     const result = await toggleRecall(recallId)
-    
+
     if (!result.success) {
       console.error('Failed to update recall status')
     }
@@ -19,7 +19,7 @@ export default function RecallCheckbox({ recallId }: RecallCheckboxProps) {
     <label>
       <input 
         type="checkbox" 
-        className="checkbox" 
+        className="checkbox checkbox-primary" 
         onChange={handleChange}
       />
     </label>

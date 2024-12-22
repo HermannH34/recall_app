@@ -35,7 +35,7 @@ export default async function RecallTable() {
         </thead>
         <tbody>
           {recalls.map((recall) => (
-            <tr key={recall._id}>
+            <tr key={recall._id} className="border-t-2">
               <th>
                 <RecallCheckbox 
                   recallId={recall._id.toString()} 
