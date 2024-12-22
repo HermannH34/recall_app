@@ -16,7 +16,7 @@ export default function RecallComment({ recallId, initialComment }: RecallCommen
       type="text" 
       placeholder="Type here" 
       className="input input-ghost w-full max-w-xs"
-      defaultValue={initialComment ?? ""}
+      defaultValue={initialComment}
       onBlur={(e) => handleCommentSubmit(recallId, e.target.value)}
     /> 
   )

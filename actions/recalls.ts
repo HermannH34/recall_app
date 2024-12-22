@@ -13,7 +13,7 @@ export async function toggleRecall(recallId: string) {
 
     return { success: true, data: deletedRecall }
   } catch (error) {
-    console.error('Error toggling recall:', error)
+
     return { success: false, error: 'Failed to update recall status' }
   }
 }
@@ -23,13 +23,15 @@ export async function updateComment(recallId: string, comment: string) {
     await connectMongo();
     
     const result = await Recall.findByIdAndUpdate(
-      recallId,
-      { comment },
-      { new: true }
-    );
+        recallId,
+        { $set: { comment: comment }  }, 
+        { new: true, runValidators: true } 
+      );
+
+    console.log("test" ,result)
     revalidatePath('/');
 
-    return { success: true, data: result };
+    return { success: true, data: result.toJSON() };
   } catch (error) {
     console.error('Error updating comment:', error);
     return { success: false, error: 'Failed to update comment' };
