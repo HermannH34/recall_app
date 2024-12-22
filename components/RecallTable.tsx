@@ -39,9 +39,9 @@ export default async function RecallTable() {
               <th>
                 <RecallCheckbox 
                   recallId={recall._id.toString()} 
-                  initialChecked={recall.wasRecalled}
                 />
               </th>
+              
               <td>
                 <div className="flex items-center gap-3">
                   <div>
