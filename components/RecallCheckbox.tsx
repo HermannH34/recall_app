@@ -1,6 +1,6 @@
 'use client'
 
-import { toggleRecall } from "@/app/actions/recall"
+import { toggleRecall } from "@/actions/recall"
 
 interface RecallCheckboxProps {
   recallId: string;

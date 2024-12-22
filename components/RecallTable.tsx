@@ -1,12 +1,13 @@
 import Recall from "@/models/Recall";
 import connectMongo from "@/libs/mongoose";
 import RecallCheckbox from "./RecallCheckbox"
-
+import RecallComment from "./RecallComment"
 
 async function getRecalls() {
   try {
     await connectMongo();
     const recalls = await Recall.find()
+
 
     return recalls
   } catch (error) {
@@ -30,7 +31,7 @@ export default async function RecallTable() {
             </th>
             <th>Nom</th>
             <th>Motif de Rappel</th>
-            <th></th>
+            <th>Commentaire:</th>
           </tr>
         </thead>
         <tbody>
@@ -50,6 +51,12 @@ export default async function RecallTable() {
                 </div>
               </td>
               <td>{recall.motive}</td>
+              <td>
+                <RecallComment 
+                  recallId={recall._id.toString()}
+                  initialComment={recall.comment}
+                />
+              </td>
             </tr>
           ))}
         </tbody>

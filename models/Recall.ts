@@ -7,6 +7,7 @@ const recallSchema = new mongoose.Schema(
   name: { type: String, required: true },
   motive: { type: String, required: true },
   recallDate: { type: Date, required: true },
+
  },
  {
   timestamps: true,
