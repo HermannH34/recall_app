@@ -1,12 +1,15 @@
+"use server"
 import Recall from "@/models/Recall";
 import connectMongo from "@/libs/mongoose";
 import RecallCheckbox from "./RecallCheckbox"
 import RecallComment from "./RecallComment"
+import { revalidatePath } from 'next/cache';
 
 async function getRecalls() {
   try {
     await connectMongo();
     const recalls = await Recall.find()
+    revalidatePath('/recalls');
 
 
     return recalls

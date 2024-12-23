@@ -1,26 +1,19 @@
-'use client';
+'use client'
 
-import { toggleRecall } from "@/actions/recalls";
-import { useTransition } from "react";
+import { toggleRecall } from "@/actions/recalls"
 
 interface RecallCheckboxProps {
   recallId: string;
 }
 
 export default function RecallCheckbox({ recallId }: RecallCheckboxProps) {
-  const [isPending, startTransition] = useTransition();
-
   const handleChange = async () => {
-    const result = await toggleRecall(recallId);
+    const result = await toggleRecall(recallId)
 
     if (!result.success) {
-      console.error('Failed to update recall status');
-    } else {
-      startTransition(() => {
-        window.location.reload();
-      });
+      console.error('Failed to update recall status')
     }
-  };
+  }
 
   return (
     <label>
@@ -28,8 +21,8 @@ export default function RecallCheckbox({ recallId }: RecallCheckboxProps) {
         type="checkbox" 
         className="checkbox checkbox-primary" 
         onChange={handleChange}
-        disabled={isPending}
       />
     </label>
-  );
-}
+  )
+} 
+
