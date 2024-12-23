@@ -61,14 +61,12 @@ const generateEmailBody = (recalls: RecallObject[]): { text: string; html: strin
 
  for (const recall of recalls) {
   text += `
-  Nom: ${recall.name}
-  Motif de rappel: ${recall.motive}
+  Nom: ${recall.name} - Motif de rappel: ${recall.motive}
   
   `;
 
   html += `
-  <p><strong>🚀 Nom:</strong> <strong>${recall.name}</strong></p>
-  <p>Motif de rappel: ${recall.motive}</p>
+  <p>🚀 <u>Nom:</u> ${recall.name}</p> - <u>Motif de rappel:</u> ${recall.motive}</p>
   `;
  }
 
