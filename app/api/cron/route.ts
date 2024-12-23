@@ -62,13 +62,13 @@ const generateEmailBody = (recalls: RecallObject[]): { text: string; html: strin
   `;
 
   html += `
-  <span>🚀 <u>Nom:</u> ${recall.name} - <u>Motif de rappel:</u> ${recall.motive}</span><br>
+  <span>🚀 <br>Nom:</br> ${recall.name} - <br>Motif de rappel:</br> ${recall.motive}</span><br>
 `;
  }
 
  const endOfMessageText = "\n\n👀 Tu peux checker le tableau avec tout tes rappels en cours ici: https://recall-app-ashen.vercel.app/recalls";
  const endOfMessageHtml = `
- <br><br>
+ <br>
  👀 <strong>Tu peux checker le tableau avec tout tes rappels en cours ici:</strong> 
  <a href="https://recall-app-ashen.vercel.app/recalls" target="_blank">https://recall-app-ashen.vercel.app/recalls</a>
  `;
