@@ -15,12 +15,11 @@ export async function GET(request: NextRequest) {
  try {
   await connectMongo();
 
-  const { startDate, endDate } = getDateRangeForToday();
+  const startDate = getDateRangeForToday();
 
   const recalls = await Recall.find({
    recallDate: {
     $gte: startDate,
-    $lt: endDate,
    },
   });
 
@@ -38,14 +37,11 @@ export async function GET(request: NextRequest) {
  }
 }
 
-const getDateRangeForToday = (): { startDate: Date; endDate: Date } => {
+const getDateRangeForToday = (): Date => {
  const today = new Date();
  today.setHours(0, 0, 0, 0);
 
- const tomorrow = new Date(today);
- tomorrow.setDate(today.getDate() + 1);
-
- return { startDate: today, endDate: tomorrow };
+ return today
 };
 
 type RecallObject = {
@@ -66,8 +62,8 @@ const generateEmailBody = (recalls: RecallObject[]): { text: string; html: strin
   `;
 
   html += `
-  <p>🚀 <u>Nom:</u> ${recall.name}</p> - <u>Motif de rappel:</u> ${recall.motive}</p>
-  `;
+  <span>🚀 <u>Nom:</u> ${recall.name} - <u>Motif de rappel:</u> ${recall.motive}</span><br>
+`;
  }
 
  const endOfMessageText = "\n\n👀 Tu peux checker le tableau avec tout tes rappels en cours ici: https://recall-app-ashen.vercel.app/recalls";
