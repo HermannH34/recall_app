@@ -72,10 +72,15 @@ const generateEmailBody = (recalls: RecallObject[]): { text: string; html: strin
   `;
  }
 
- const endOfMessage = "<br><br>👀<strong>Tu peux checker le tableau avec tout tes rappels en cours ici:</strong> https://recall-app-ashen.vercel.app/recalls"
+ const endOfMessageText = "\n\n👀 Tu peux checker le tableau avec tout tes rappels en cours ici: https://recall-app-ashen.vercel.app/recalls";
+ const endOfMessageHtml = `
+ <br><br>
+ 👀 <strong>Tu peux checker le tableau avec tout tes rappels en cours ici:</strong> 
+ <a href="https://recall-app-ashen.vercel.app/recalls" target="_blank">https://recall-app-ashen.vercel.app/recalls</a>
+ `;
 
- text += endOfMessage
- html += endOfMessage
+ text += endOfMessageText;
+ html += endOfMessageHtml;
 
  return { text, html };
 };
@@ -88,7 +93,7 @@ const sendEmailsForLeads = async (recalls: any[]) => {
  try {
 
   await sendEmail({
-   to: recalls[0].email,
+   to: "hermannhairet44@gmail.com",
    subject: "Rappels programmés aujourd'hui",
    text,
    html,
