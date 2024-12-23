@@ -85,7 +85,7 @@ const sendEmailsForLeads = async (recalls: any[]) => {
  try {
 
   await sendEmail({
-   to: "hermannhairet44@gmail.com",
+   to: recalls[0].email,
    subject: "Rappels programmés aujourd'hui",
    text,
    html,
