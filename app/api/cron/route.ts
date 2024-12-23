@@ -70,6 +70,7 @@ const generateEmailBody = (recalls: RecallObject[]): { text: string; html: strin
   <p><strong>🚀 Nom:</strong> <strong>${recall.name}</strong></p>
   <p>Motif de rappel: ${recall.motive}</p>
   <br>
+  <br>
   `;
  }
 
