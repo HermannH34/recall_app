@@ -8,7 +8,11 @@ import { revalidatePath } from 'next/cache';
 async function getRecalls() {
   try {
     await connectMongo();
-    const recalls = await Recall.find()
+    const recalls = await Recall.find({
+      recallDate: {
+        $gte: new Date().setHours(0, 0, 0, 0),
+      },
+    });
     revalidatePath('/recalls');
 
 
@@ -41,11 +45,11 @@ export default async function RecallTable() {
           {recalls.map((recall) => (
             <tr key={recall._id} className="border-t-2">
               <th>
-                <RecallCheckbox 
-                  recallId={recall._id.toString()} 
+                <RecallCheckbox
+                  recallId={recall._id.toString()}
                 />
               </th>
-              
+
               <td>
                 <div className="flex items-center gap-3">
                   <div>
@@ -55,7 +59,7 @@ export default async function RecallTable() {
               </td>
               <td>{recall.motive}</td>
               <td>
-                <RecallComment 
+                <RecallComment
                   recallId={recall._id.toString()}
                   initialComment={recall.comment}
                 />
