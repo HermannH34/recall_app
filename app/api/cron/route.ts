@@ -84,8 +84,8 @@ const generateBody = (): { text: string; html: string } => {
   const html = `
  <br>
  Hello Clara,
-
- 👀 <strong>N'oublie pas de checker le tableau avec tout tes rappels en cours ici:</strong> 
+  <br>
+ 👀 <strong>N'oublie pas de checker le tableau avec tout tes rappels en cours:</strong> 
  <a href="https://recall-app-ashen.vercel.app/recalls" target="_blank">https://recall-app-ashen.vercel.app/recalls</a>
  `
 
@@ -95,7 +95,7 @@ const generateBody = (): { text: string; html: string } => {
   }
 }
 
-const sendEmailsForLeads = async (recalls: any[]) => {
+const sendEmailsForLeads = async () => {
 
   const { text, html } = generateBody()
 
