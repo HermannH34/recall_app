@@ -4,6 +4,7 @@ import connectMongo from "@/libs/mongoose";
 import RecallCheckbox from "./RecallCheckbox"
 import RecallComment from "./RecallComment"
 import { revalidatePath } from 'next/cache';
+import { getDateNDaysLater } from "@/libs/utils/getNDaysLater";
 
 async function getRecalls() {
   try {
@@ -12,7 +13,7 @@ async function getRecalls() {
 
     const recalls = await Recall.find({
       recallDate: {
-        $gt: twoDaysLater,
+        $lt: twoDaysLater,
       },
     });
     revalidatePath('/recalls');
@@ -74,8 +75,3 @@ export default async function RecallTable() {
   )
 }
 
-function getDateNDaysLater(days: number): Date {
-  const date = new Date();
-  date.setDate(date.getDate() + days);
-  return date;
-}
