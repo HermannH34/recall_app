@@ -95,7 +95,7 @@ const generateBody = (): { text: string; html: string } => {
   }
 }
 
-const sendEmailsForLeads = async () => {
+const sendEmailsForLeads = async (recalls: any[]) => {
 
   const { text, html } = generateBody()
 
