@@ -84,8 +84,8 @@ const generateBody = (): { text: string; html: string } => {
   const html = `
  <br>
  Hello Clara,
-  <br>
- 👀 <strong>N'oublie pas de checker le tableau avec tout tes rappels en cours:</strong> 
+  
+ 👀 <strong>N'oublie pas de checker le tableau avec tout tes rappels en cours ici:</strong> 
  <a href="https://recall-app-ashen.vercel.app/recalls" target="_blank">https://recall-app-ashen.vercel.app/recalls</a>
  `
 
@@ -102,7 +102,7 @@ const sendEmailsForLeads = async (recalls: any[]) => {
   try {
 
     await sendEmail({
-      to: "hermannhairet44@gmail.com",
+      to: recalls[0].email,
       subject: "REGARDER LE TABLEAU DE RAPPELS :)",
       text,
       html,
