@@ -5,96 +5,113 @@ import { sendEmail } from "@/libs/resend";
 import { revalidatePath } from "next/cache";
 
 const forceRevalidate = (request: NextRequest) => {
- const path = request.nextUrl.searchParams.get("path") || "/";
- revalidatePath(path);
+  const path = request.nextUrl.searchParams.get("path") || "/";
+  revalidatePath(path);
 };
 
 export async function GET(request: NextRequest) {
- forceRevalidate(request);
+  forceRevalidate(request);
 
- try {
-  await connectMongo();
+  try {
+    await connectMongo();
 
-  const startDate = getDateRangeForToday();
+    const startDate = getDateRangeForToday();
 
-  const recalls = await Recall.find({
-   recallDate: {
-    $gte: startDate,
-   },
-  });
+    const recalls = await Recall.find({
+      recallDate: {
+        $gte: startDate,
+      },
+    });
 
 
-  if (recalls.length > 0) await sendEmailsForLeads(recalls);
+    if (recalls.length > 0) await sendEmailsForLeads(recalls);
 
-  return NextResponse.json({ success: true, recalls }
-  );
- } catch (error) {
-  console.error("Error fetching leads by date: ", error);
-  return NextResponse.json(
-   { success: false, error: "Internal server error" },
-   { status: 500 }
-  );
- }
+    return NextResponse.json({ success: true, recalls }
+    );
+  } catch (error) {
+    console.error("Error fetching leads by date: ", error);
+    return NextResponse.json(
+      { success: false, error: "Internal server error" },
+      { status: 500 }
+    );
+  }
 }
 
 const getDateRangeForToday = (): Date => {
- const today = new Date();
- today.setHours(0, 0, 0, 0);
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
 
- return today
+  return today
 };
 
 type RecallObject = {
- name: string;
- motive: string;
+  name: string;
+  motive: string;
 };
 
 
 const generateEmailBody = (recalls: RecallObject[]): { text: string; html: string } => {
- const message = `Hello Clara voici la liste de tes rappels aujourd'hui: <br><br>`
- let text = message
- let html = message
+  const message = `Hello Clara voici la liste de tes rappels aujourd'hui: <br><br>`
+  let text = message
+  let html = message
 
- for (const recall of recalls) {
-  text += `Nom: **${recall.name}** - Motif de rappel: **${recall.motive}**\n`;
+  for (const recall of recalls) {
+    text += `Nom: **${recall.name}** - Motif de rappel: **${recall.motive}**\n`;
 
 
-  html += `
+    html += `
   <span>🚀 <strong>Nom:</strong> ${recall.name} - <strong>Motif de rappel:</strong> ${recall.motive}</span><br>
 `;
- }
+  }
 
- const endOfMessageText = "\n\n👀 Tu peux checker le tableau avec tout tes rappels en cours ici: https://recall-app-ashen.vercel.app/recalls";
- const endOfMessageHtml = `
+  const endOfMessageText = "\n\n👀 Tu peux checker le tableau avec tout tes rappels en cours ici: https://recall-app-ashen.vercel.app/recalls";
+  const endOfMessageHtml = `
  <br>
  👀 <strong>Tu peux checker le tableau avec tout tes rappels en cours ici:</strong> 
  <a href="https://recall-app-ashen.vercel.app/recalls" target="_blank">https://recall-app-ashen.vercel.app/recalls</a>
  `;
 
- text += endOfMessageText;
- html += endOfMessageHtml;
+  text += endOfMessageText;
+  html += endOfMessageHtml;
 
- return { text, html };
+  return { text, html };
 };
 
 
+const generateBody = (): { text: string; html: string } => {
+  const text = "Hello Clara, <br><br> \n\n👀 N'oublie pas de checker le tableau avec tout tes rappels en cours ici: https://recall-app-ashen.vercel.app/recalls"
+
+  const html = `
+ <br>
+ Hello Clara,
+
+ 👀 <strong>N'oublie pas de checker le tableau avec tout tes rappels en cours ici:</strong> 
+ <a href="https://recall-app-ashen.vercel.app/recalls" target="_blank">https://recall-app-ashen.vercel.app/recalls</a>
+ `
+
+  return {
+    text,
+    html
+  }
+}
+
 const sendEmailsForLeads = async (recalls: any[]) => {
 
- const { text, html } = generateEmailBody(recalls);
+  const { text, html } = generateBody()
 
- try {
+  try {
 
-  await sendEmail({
-   to: recalls[0].email,
-   subject: "Rappels programmés aujourd'hui",
-   text,
-   html,
-   replyTo: "hermannhairet44@gmail.com",
-  });
+    await sendEmail({
+      to: recalls[0].email,
+      subject: "REGARDER LE TABLEAU DE RAPPELS :)",
+      text,
+      html,
+      replyTo: "hermannhairet44@gmail.com",
+    });
 
 
- } catch (emailError) {
-  console.error(`Error sending email`, emailError);
- }
+  } catch (emailError) {
+    console.error(`Error sending email`, emailError);
+  }
 
 };
