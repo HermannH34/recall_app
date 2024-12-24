@@ -8,9 +8,11 @@ import { revalidatePath } from 'next/cache';
 async function getRecalls() {
   try {
     await connectMongo();
+    const twoDaysLater = getDateNDaysLater(2);
+
     const recalls = await Recall.find({
       recallDate: {
-        $gte: new Date().setHours(0, 0, 0, 0),
+        $gt: twoDaysLater,
       },
     });
     revalidatePath('/recalls');
@@ -70,4 +72,10 @@ export default async function RecallTable() {
       </table>
     </div>
   )
-} 
+}
+
+function getDateNDaysLater(days: number): Date {
+  const date = new Date();
+  date.setDate(date.getDate() + days);
+  return date;
+}
