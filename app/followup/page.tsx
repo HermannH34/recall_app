@@ -1,11 +1,13 @@
-import FollowUpTable from '@/components/RecallTable'
-import CreateFollowUp from "@/components/CreateFollowUp";
+import FollowUpTable from '@/components/FollowUpTable'
+import FollowUpModal from "@/components/FollowUpModal"
 
-export default function RecallsPage() {
+export default function FollowUpPage() {
  return (
   <div className="container mx-auto p-4">
-   <h1 className="text-2xl font-bold mb-4">Relances 🙂📨</h1>
-   <button className="btn" onClick={() => document.getElementById(<CreateFollowUp />).showModal()}>Créer une relance</button>
+   <div className="flex justify-between items-center mb-4">
+    <h1 className="text-2xl font-bold ml-4">Actions 🙂📨</h1>
+    <FollowUpModal/>
+   </div>
    <FollowUpTable />
   </div>
  )

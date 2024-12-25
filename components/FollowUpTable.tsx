@@ -2,7 +2,7 @@
 import ProspectFollowUp from "@/models/ProspectFollowUp";
 import connectMongo from "@/libs/mongoose";
 import { revalidatePath } from 'next/cache';
-import FollowUpButton from "./FllowUpButton";
+import FollowUpButton from "./FollowUpButton";
 
 async function getProspects() {
  try {

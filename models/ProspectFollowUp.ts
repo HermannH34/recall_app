@@ -5,7 +5,7 @@ const prospectFollowUp = new mongoose.Schema(
  {
   email: { type: String, required: true },
   name: { type: String, required: true },
-  followUpCounter: { Number, enum: [0, 1, 2], default: 0 },
+  followUpCounter: { type: Number, enum: [0, 1, 2], default: 0 },
   typeOfLegalProfessional: { type: String, required: true }
  },
  {
@@ -18,4 +18,4 @@ const prospectFollowUp = new mongoose.Schema(
 prospectFollowUp.plugin(toJSON);
 
 // Export the model
-export default mongoose.models.ProspectFollowUp || mongoose.model("Recall", prospectFollowUp);
+export default mongoose.models.ProspectFollowUp || mongoose.model("ProspectFollowUp", prospectFollowUp);

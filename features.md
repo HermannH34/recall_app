@@ -22,3 +22,7 @@ relance type (1, 2 3)
 type de juriste
 
 feature copier nom et email
+
+
+
+colonne: prospect/candidat, entreprise, interlocuteur à la place de nom
