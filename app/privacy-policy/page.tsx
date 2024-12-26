@@ -57,7 +57,7 @@ const PrivacyPolicy = () => {
           className="leading-relaxed whitespace-pre-wrap"
           style={{ fontFamily: "sans-serif" }}
         >
-          {`Last Updated: 2023-12-26
+          {`Last Updated: 2024-12-26
 
 Thank you for visiting Recall. This Privacy Policy outlines how we collect, use, and protect your personal and non-personal information when you use our website located at https://recall-app-ashen.vercel.app/recalls.
 
@@ -70,7 +70,7 @@ By accessing or using the Website, you agree to the terms of this Privacy Policy
 We collect the following personal information from you:
 
 Name: We collect your name to personalize your experience and communicate with you effectively.
-Email: We collect your email address to send you important information regarding rour recalles, orders, updates, and communication.
+Email: We collect your email address to send you important information regarding rour recalls, orders, updates, and communication.
 Payment Information: We collect payment details to process your orders securely. However, we do not store your payment information on our servers. Payments are processed by trusted third-party payment processors.
 
 1.2 Non-Personal Data
