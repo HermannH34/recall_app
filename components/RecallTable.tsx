@@ -9,7 +9,7 @@ import { getDateNDaysLater } from "@/libs/utils/getNDaysLater";
 async function getRecalls() {
   try {
     await connectMongo();
-    const twoDaysLater = getDateNDaysLater(1);
+    const twoDaysLater = getDateNDaysLater(2);
 
     const recalls = await Recall.find({
       recallDate: {
